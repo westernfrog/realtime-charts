@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getSocket } from "@/lib/socket"; // Your existing socket utility
+import { getSocket } from "@/lib/socket";
 import {
   LineChart,
   Line,
@@ -18,24 +18,21 @@ export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
   const [chartData, setChartData] = useState([]);
 
-  // Establish socket connection and listen for real-time updates
   useEffect(() => {
     const socket = getSocket();
 
-    socket.connect(); // Connect to the socket server
+    socket.connect();
 
-    // Listen for the initial chart data when the component is mounted
     socket.on("initial-data", (data) => {
-      setChartData(data); // Populate initial chart data
+      setChartData(data);
     });
 
-    // Listen for real-time updates
     socket.on("update-chart", (newData) => {
-      setChartData((prevData) => [...prevData, newData]); // Append new data to the chart
+      setChartData((prevData) => [...prevData, newData]);
     });
 
     return () => {
-      socket.disconnect(); // Clean up on unmount
+      socket.disconnect();
     };
   }, []);
 
