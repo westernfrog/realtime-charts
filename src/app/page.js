@@ -60,6 +60,7 @@ export default function Home() {
         },
         body: JSON.stringify(newData),
       });
+      console.log(newData);
 
       if (response.ok) {
         setIsOpen(false);

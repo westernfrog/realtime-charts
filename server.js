@@ -2,7 +2,8 @@ const { createServer } = require("http");
 const next = require("next");
 const { Server } = require("socket.io");
 const { connectToDatabase } = require("./src/lib/dbConnect"); // Correct the path
-const RealtimeModel = require("./src/model/realtime"); // Import your Mongoose model
+const { RealtimeModel } = require("./src/model/realtime");
+// Import your Mongoose model
 
 const dev = process.env.NODE_ENV !== "production";
 const hostname = "localhost";
@@ -34,11 +35,9 @@ app.prepare().then(() => {
 
     fetchInitialData();
 
-    // Listen for changes to the collection and emit updated data to clients
     async function listenForChanges() {
       try {
-        // Watch for changes in MongoDB collection
-        const changeStream = RealtimeModel.watch(); // Mongoose `watch` for change streams
+        const changeStream = RealtimeModel.watch();
         changeStream.on("change", (change) => {
           if (change.operationType === "insert") {
             socket.emit("update-chart", change.fullDocument);

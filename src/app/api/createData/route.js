@@ -1,12 +1,12 @@
-import { NextResponse } from "next/server";
-import connectToDatabase from "@/lib/dbConnect";
-import { createData } from "@/model/realtime";
+const { NextResponse } = require("next/server");
+const { connectToDatabase } = require("@/lib/dbConnect");
+const { createData } = require("@/model/realtime");
 
 export async function POST(request) {
-  await connectToDatabase();
+  await connectToDatabase(); // Ensure database connection
   try {
-    const body = await request.json();
-    const newData = await createData(body);
+    const body = await request.json(); // Parse request body
+    const newData = await createData(body); // Create new data
     console.log(newData);
 
     return NextResponse.json(
